@@ -82,14 +82,14 @@ defmodule Asciichart do
 
         max_label_size =
           (maximum / 1)
-          |> Float.round(2)
-          |> :erlang.float_to_binary(decimals: 2)
+          |> Float.round(cfg[:decimals] || 2)
+          |> :erlang.float_to_binary(decimals: cfg[:decimals] || 2)
           |> String.length()
 
         min_label_size =
           (minimum / 1)
-          |> Float.round(2)
-          |> :erlang.float_to_binary(decimals: 2)
+          |> Float.round(cfg[:decimals] || 2)
+          |> :erlang.float_to_binary(decimals: cfg[:decimals] || 2)
           |> String.length()
 
         label_size = max(min_label_size, max_label_size)
@@ -100,8 +100,8 @@ defmodule Asciichart do
           |> Enum.reduce(result, fn y, map ->
             label =
               (maximum - (y - intmin2) * interval / rows)
-              |> Float.round(2)
-              |> :erlang.float_to_binary(decimals: 2)
+              |> Float.round(cfg[:decimals] || 2)
+              |> :erlang.float_to_binary(decimals: cfg[:decimals] || 2)
               |> String.pad_leading(label_size, padding)
 
             updated_map = put_in(map[y - intmin2][max(offset - String.length(label), 0)], label)
